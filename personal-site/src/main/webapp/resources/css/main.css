@@ -1,0 +1,133 @@
+
+a:link {
+    text-decoration: none;
+    background-color: black;
+    color: dimgray;
+}
+a:visited {
+    text-decoration: none;
+    background-color: black;
+    color: dimgray;
+
+}
+
+a:hover {
+    text-decoration: none;
+    color: dimgray;
+    background-color: whitesmoke;
+    animation: fade 1s linear;
+}
+
+a:active {
+    text-decoration: none;
+    background-color: green;
+}
+@keyframes fade {
+    from {opacity: 0.0;}
+    to {opacity: 1.0;}
+}
+
+body {
+    background-color: dimgray;
+}
+
+.links-list {
+    border: medium inset black;
+    padding: 10px;
+    margin: 10px;
+    float: left;
+    background-clolor: black;
+    color: white;
+}
+
+.link-element {
+    margin: 5px;
+}
+
+.link-element  p{
+    display: inline-block;
+    width: 100px;
+}
+
+#user-links {
+    float: left;
+    border: inset medium black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 20px;
+    background-color: lawngreen;
+}
+
+.link {
+    margin: auto;
+    margin-top: 5px;
+    text-align: center;
+    border: solid;
+    border-radius: 5px;
+    width: 200px;
+    padding: 3px;
+    display: inline-block;
+    position: relative;
+}
+
+.link:hover:after {
+    background: #333;
+    background: rgba(128,128,128,.8);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #fff;
+    content: attr(description);
+    left: 20%;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 98;
+    width: 220px;
+}
+
+
+
+.link:hover:before{
+    border: solid;
+    border-color: #333 transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: 20px;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 99;
+}
+
+
+
+.content {
+    float: left;
+    margin-left: 20px;
+    width: 50%;
+}
+
+.data-entry {
+    margin: 10px auto auto;
+    padding: 10px;
+    width: 350px;
+    clear: both;
+    border: solid 1px black;
+
+}
+
+.data-entry-text {
+    display: inline;
+    overflow: hidden;
+}
+
+.data-entry-input {
+    float: right;
+}
+
+section {
+    margin: 10px;
+    padding: 5px;
+    background-color: black;
+    border-radius: 5px;
+    border: solid black;
+    color: white;
+}
