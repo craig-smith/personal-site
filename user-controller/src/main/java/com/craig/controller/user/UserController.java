@@ -1,12 +1,11 @@
 package com.craig.controller.user;
 
 
+import com.craig.aspects.userlinks.AddUserLink;
 import com.craig.base.error.ErrorMessage;
 import com.craig.entity.user.User;
 import com.craig.entity.user.UserRole;
 import com.craig.entity.user.service.UserService;
-import com.craig.entity.userlinks.service.UserLinksService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,23 +31,23 @@ import java.util.Set;
 @Controller
 public class UserController {
     private static Logger logger = Logger.getLogger(UserController.class);
-    @Autowired
-    UserLinksService userLinksService;
+
     @Autowired
     private UserService userService;
 
+    @AddUserLink
     @RequestMapping(value = "/createAccount", method = RequestMethod.GET)
     public String getCreateAccount(Model model) {
         logger.debug("getCreateAccount method");
-        model.addAttribute("links", userLinksService.getUserLinks());
+
         return "createAccount";
     }
 
+    @AddUserLink
     @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
     public String postCreateAccount(@RequestParam String username, @RequestParam String password,
                                     @RequestParam String email, Model model) {
         logger.debug("creating user: " + username + " " + email);
-        model.addAttribute("links", userLinksService.getUserLinks());
         try {
             User user = userService.createNewUser(username, password, email);
             logger.debug("Account created for user: " + user.toString());
@@ -71,10 +70,10 @@ public class UserController {
         return "login";
     }
 
+    @AddUserLink
     @RequestMapping(value = "user/updateAccount", method = RequestMethod.GET)
     public String getUpdateAccount(Model model) {
         logger.debug("getUpdateAccount method");
-        model.addAttribute("links", userLinksService.getUserLinks());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
 
@@ -82,10 +81,10 @@ public class UserController {
         return "user/updateAccount";
     }
 
+    @AddUserLink
     @RequestMapping(value = "user/updateAccount", method = RequestMethod.POST)
     public String postUpdateAccount(Model model, @RequestParam String username, @RequestParam String password,
                                     @RequestParam String passwordConfirm, @RequestParam String email) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         logger.debug("updating account details for: " + username);
         User user = userService.findByUserName(username);
         try {
@@ -113,18 +112,18 @@ public class UserController {
         return "index";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/userList", method = RequestMethod.GET)
     public String getAdminUserList(Model model) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         List<User> users = userService.getAllUsers();
         model.addAttribute("userList", users);
         return "/admin/userList";
 
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/editUser", method = RequestMethod.GET)
     public String getAminEditUser(@RequestParam String username, Model model) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         model.addAttribute("user", userService.findByUserName(username));
         return "/admin/editUser";
     }
@@ -135,9 +134,9 @@ public class UserController {
         return "redirect:userList";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/editUser", method = RequestMethod.POST)
     public String postAdminUpdateUser(@ModelAttribute User user,  Model model){
-        model.addAttribute("links", userLinksService.getUserLinks());
 
         User dbUser = userService.findByUserName(user.getUserName());
         dbUser.setEmail(user.getEmail());
@@ -149,9 +148,9 @@ public class UserController {
         return "redirect:userList";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/editUserRoles", method = RequestMethod.GET)
     public String getAdminEditUserRoles(Model model, @RequestParam String username){
-        model.addAttribute("links", userLinksService.getUserLinks());
         model.addAttribute("user", userService.findByUserName(username));
 
         UserRole.USER_ROLE[] roles = UserRole.USER_ROLE.values();

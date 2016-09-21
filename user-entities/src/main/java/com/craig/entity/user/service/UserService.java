@@ -7,7 +7,6 @@ import com.craig.entity.user.repositories.RoleRepository;
 import com.craig.entity.user.repositories.UserRepository;
 import com.craig.entity.user.validator.Password;
 import org.apache.log4j.Logger;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.ConstraintTarget;
-import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

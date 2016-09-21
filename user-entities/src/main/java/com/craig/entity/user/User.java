@@ -40,8 +40,8 @@ public class User extends BaseEntity{
         this.userName = userName;
         this.password = password;
         this.email = email;
-        enabled = true;
-        loginAttempts = 0;
+        this.enabled = false;
+        this.loginAttempts = 0;
 
     }
 

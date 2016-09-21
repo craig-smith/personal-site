@@ -1,6 +1,7 @@
 package com.craig.controller.userlinks;
 
 
+import com.craig.aspects.userlinks.AddUserLink;
 import com.craig.entity.userlinks.UserLink;
 import com.craig.entity.userlinks.service.UserLinksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,27 +20,28 @@ public class LinksController {
     @Autowired
     private UserLinksService userLinksService;
 
+    @AddUserLink
     @RequestMapping(value = "admin/allLinks", method = RequestMethod.GET)
     public String getAllLinks(Model model) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         model.addAttribute("allLinks", userLinksService.getAllLinks());
 
         return "admin/allLinks";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/editLink", method = RequestMethod.GET)
     public String getEditLink(Model model, @RequestParam Long id) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         model.addAttribute("link", userLinksService.findById(id));
 
         return "admin/editLink";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/editLink", method = RequestMethod.POST)
     public String postEditLink(Model model, @RequestParam Long id, @RequestParam String url, @RequestParam String acl,
                                @RequestParam String name, @RequestParam String description) {
 
-        model.addAttribute("links", userLinksService.getUserLinks());
+
         UserLink link = userLinksService.findById(id);
         link.setName(name);
         link.setAcl(acl);
@@ -51,26 +53,26 @@ public class LinksController {
         return "redirect:allLinks";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/deleteLink", method = RequestMethod.POST)
     public String postDeleteLink(Model model, @RequestParam Long id) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         userLinksService.deleteById(id);
 
         return "redirect:allLinks";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/addLink", method = RequestMethod.POST)
     public String postAddLink(Model model, @RequestParam String url, @RequestParam String acl,
                               @RequestParam String name, @RequestParam String description) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         UserLink link = new UserLink(url, acl, name, description);
         userLinksService.save(link);
         return "redirect:allLinks";
     }
 
+    @AddUserLink
     @RequestMapping(value = "admin/addLink", method = RequestMethod.GET)
     public String getAddLink(Model model) {
-        model.addAttribute("links", userLinksService.getUserLinks());
         return "admin/addLink";
     }
 

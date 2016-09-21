@@ -28,7 +28,7 @@
   <section>
     <h2>Current Roles</h2>
     <c:forEach var="role" items="${user.userRoll}">
-      <div class="userRoll" name="${role}"> <c:out value="${role}"></c:out><</div>
+      <div class="userRoll" name="${role}"> <c:out value="${role}"></c:out></div>
     </c:forEach>
   </section>
   <%@include file="../errorMessage.jsp"%>

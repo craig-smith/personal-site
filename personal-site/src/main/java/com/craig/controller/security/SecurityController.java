@@ -1,9 +1,7 @@
 package com.craig.controller.security;
 
 
-import com.craig.entity.user.service.UserService;
-import com.craig.entity.userlinks.service.UserLinksService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.craig.aspects.userlinks.AddUserLink;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SecurityController {
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private UserLinksService userLinksService;
 
+
+    @AddUserLink
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String getLogin(Model model) {
-        model.addAttribute("links", userLinksService.getUserLinks());
+
         return "login";
     }
 
