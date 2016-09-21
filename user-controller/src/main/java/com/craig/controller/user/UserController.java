@@ -2,6 +2,8 @@ package com.craig.controller.user;
 
 
 import com.craig.aspects.userlinks.AddUserLink;
+import com.craig.autoregister.AutoRegisterLink;
+import com.craig.autoregister.AutoRegisterLinks;
 import com.craig.base.error.ErrorMessage;
 import com.craig.entity.user.User;
 import com.craig.entity.user.UserRole;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,12 +31,19 @@ import java.util.Set;
 /**
  * Created by Craig on 3/6/2016.
  */
+
+@AutoRegisterLinks(name = "UserLinksController", autoregisterLinks = {
+        @AutoRegisterLink(name = "Log In", url = "/login", acl = "ROLE_ANONYMOUS", description = "Log In"),
+        @AutoRegisterLink(name = "Create Account",url = "/createAccount", acl = "ROLE_ANONYMOUS" , description = "Create your account today!"),
+        @AutoRegisterLink(name = "Update Account", url = "/user/updateAccount", acl = "ROLE_USER", description = "Update Account Details"),
+        @AutoRegisterLink(name = "Admin User List", url = "/admin/userList", acl = "ROLE_ADMIN", description = "Admin User List")})
 @Controller
 public class UserController {
     private static Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
+
 
     @AddUserLink
     @RequestMapping(value = "/createAccount", method = RequestMethod.GET)

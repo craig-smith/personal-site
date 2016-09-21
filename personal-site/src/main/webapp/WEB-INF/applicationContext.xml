@@ -17,6 +17,10 @@
 
     <context:component-scan base-package="com.craig" />
 
+    <context:component-scan base-package="com.craig.controller">
+        <context:include-filter type="annotation" expression="com.craig.autoregister.AutoRegisterLinks"/>
+    </context:component-scan>
+
     <jpa:repositories base-package="com.craig" />
 
     <bean id="validator"
