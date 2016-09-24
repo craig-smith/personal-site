@@ -2,6 +2,8 @@ package com.craig.controller.userlinks;
 
 
 import com.craig.aspects.userlinks.AddUserLink;
+import com.craig.autoregister.AutoRegisterLink;
+import com.craig.autoregister.AutoRegisterLinks;
 import com.craig.entity.userlinks.UserLink;
 import com.craig.entity.userlinks.service.UserLinksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Created by Craig on 2/24/2016.
  */
+@AutoRegisterLinks(name = "Links Controller", autoregisterLinks = {
+        @AutoRegisterLink(name = "Admin Links List", description = "All Links List", acl = "ROLE_ADMIN", url = "/admin/allLinks"),
+        @AutoRegisterLink(name = "Add New Link", description = "Add New Link", acl = "ROLE_ADMIN", url = "/admin/addLink")
+})
 @Controller
 public class LinksController {
 

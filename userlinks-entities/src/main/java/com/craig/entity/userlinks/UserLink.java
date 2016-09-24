@@ -67,4 +67,27 @@ public class UserLink extends BaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserLink userLink = (UserLink) o;
+
+        if (!url.equals(userLink.url)) return false;
+        if (!acl.equals(userLink.acl)) return false;
+        if (!name.equals(userLink.name)) return false;
+        return description.equals(userLink.description);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = url.hashCode();
+        result = 31 * result + acl.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
+        return result;
+    }
 }

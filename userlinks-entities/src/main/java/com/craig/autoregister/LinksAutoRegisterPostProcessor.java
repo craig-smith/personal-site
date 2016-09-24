@@ -1,7 +1,9 @@
 package com.craig.autoregister;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -26,7 +28,7 @@ public class LinksAutoRegisterPostProcessor implements ApplicationContextAware, 
     @Autowired
     private UserLinksService userLinksService;
 
-    private List<UserLink> allLinks;
+    private Set<UserLink> allLinks;
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
@@ -55,33 +57,16 @@ public class LinksAutoRegisterPostProcessor implements ApplicationContextAware, 
     }
 
     private void insertIfnotExist(UserLink userLink) {
-        boolean found = false;
-        if(allLinks.size() < 1){
-            userLinksService.save(userLink);
-            found = true;
-        }
-        for (UserLink existingUserLink : allLinks) {
-            if ( existingUserLink.getAcl()
-                    .equals(userLink.getAcl())
-                    && existingUserLink.getDescription()
-                            .equals(userLink.getDescription())
-                    && existingUserLink.getName()
-                            .equals(userLink.getName())
-                    && existingUserLink.getUrl()
-                            .equals(userLink.getUrl()) ) {
-                found = true;
-            }
-        }
 
-        if(found == false) {
+        if (!allLinks.contains(userLink) ) {
             userLinksService.save(userLink);
+            allLinks.add(userLink);
         }
-
-        allLinks = userLinksService.getAllLinks();
     }
 
     @PostConstruct
     public void setAllLinks() {
-        allLinks = userLinksService.getAllLinks();
+        allLinks = new HashSet<UserLink>();
+        allLinks.addAll(userLinksService.getAllLinks());
     }
 }
