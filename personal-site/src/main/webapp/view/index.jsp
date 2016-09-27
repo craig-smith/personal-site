@@ -14,5 +14,11 @@
 </head>
 <body>
 <%@include file="links.jsp"%>
+<div class="content">
+  <section>
+  <h2>Welcome to CSMITH website.</h2>
+  <p>In the future there will be some stuff here &#9787;</p>
+  </section>
+</div>
 </body>
 </html>

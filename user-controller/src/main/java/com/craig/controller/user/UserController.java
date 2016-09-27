@@ -133,20 +133,20 @@ public class UserController {
 
     @AddUserLink
     @RequestMapping(value = "admin/editUser", method = RequestMethod.GET)
-    public String getAminEditUser(@RequestParam String username, Model model) {
+    public String getAminEditUser(Model model, @RequestParam String username) {
         model.addAttribute("user", userService.findByUserName(username));
         return "/admin/editUser";
     }
 
     @RequestMapping(value = "admin/deleteUser", method = RequestMethod.POST)
-    public String postAdminDeleteUser(@RequestParam String username, Model model) {
+    public String postAdminDeleteUser(Model model, @RequestParam String username) {
         userService.deleteUser(userService.findByUserName(username));
         return "redirect:userList";
     }
 
     @AddUserLink
     @RequestMapping(value = "admin/editUser", method = RequestMethod.POST)
-    public String postAdminUpdateUser(@ModelAttribute User user,  Model model){
+    public String postAdminUpdateUser(Model model, @ModelAttribute User user){
 
         User dbUser = userService.findByUserName(user.getUserName());
         dbUser.setEmail(user.getEmail());
@@ -161,10 +161,12 @@ public class UserController {
     @AddUserLink
     @RequestMapping(value = "admin/editUserRoles", method = RequestMethod.GET)
     public String getAdminEditUserRoles(Model model, @RequestParam String username){
-        model.addAttribute("user", userService.findByUserName(username));
+        User user = userService.findByUserName(username);
+        model.addAttribute("user", user);
 
         UserRole.USER_ROLE[] roles = UserRole.USER_ROLE.values();
 
+        model.addAttribute("roles" , user.getUserRoll());
         model.addAttribute("availableRoles", roles);
         return "/admin/editUserRoles";
     }
