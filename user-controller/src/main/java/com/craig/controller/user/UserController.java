@@ -24,9 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Craig on 3/6/2016.
@@ -164,10 +162,27 @@ public class UserController {
         User user = userService.findByUserName(username);
         model.addAttribute("user", user);
 
-        UserRole.USER_ROLE[] roles = UserRole.USER_ROLE.values();
+        List<UserRole.USER_ROLE> roles = Arrays.asList(UserRole.USER_ROLE.values());
 
         model.addAttribute("roles" , user.getUserRoll());
         model.addAttribute("availableRoles", roles);
         return "/admin/editUserRoles";
+    }
+
+    @AddUserLink
+    @RequestMapping(value = "admin/editUserRoles", method = RequestMethod.POST)
+    public String postAdminEditUserRoles(Model model, @RequestParam List<UserRole.USER_ROLE> roles, @RequestParam String username) {
+        User user = userService.findByUserName(username);
+        Set<UserRole> userRoles = new HashSet<UserRole>();
+        for(UserRole.USER_ROLE role : roles) {
+            UserRole userRole = new UserRole(role.getRole(), user );
+            userRoles.add(userRole);
+        }
+        user.setUserRoll(userRoles);
+
+        userService.updateDetails(user);
+
+        return "redirect:userList";
+
     }
 }

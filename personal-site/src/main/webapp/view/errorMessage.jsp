@@ -7,16 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+
 <c:if  test="${not empty errorMsg}">
   <h2>Oops! There was a problem.</h2>
   <c:forEach var="errorMessage" items="${errorMsg}">
     <p>${errorMessage.errorType}: ${errorMessage.errorMessage}</p>
   </c:forEach>
 </c:if>
-</body>
-</html>
+
