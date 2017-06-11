@@ -1,21 +1,23 @@
 package com.craig.email;
 
+import java.util.Map;
+
 /**
  * Created by craig on 8/26/16.
  */
 public class EmailObj {
     private final String from;
     private final String to;
-    private final String body;
+    private final Map<String, Object> body;
     private final String subject;
-    private final boolean htmlType;
+    private final String template;
 
-    public EmailObj(String from, String to, String body, String subject, boolean htmlType) {
+    public EmailObj(String from, String to, Map<String, Object> body, String subject, String template) {
         this.from = from;
         this.to = to;
         this.body = body;
         this.subject = subject;
-        this.htmlType = htmlType;
+        this.template = template;
     }
 
     public String getFrom() {
@@ -26,7 +28,7 @@ public class EmailObj {
         return to;
     }
 
-    public String getBody() {
+    public Map<String, Object> getBody() {
         return body;
     }
 
@@ -34,7 +36,7 @@ public class EmailObj {
         return subject;
     }
 
-    public boolean isHtmlType() {
-        return htmlType;
+    public String getTemplate() {
+        return template;
     }
 }

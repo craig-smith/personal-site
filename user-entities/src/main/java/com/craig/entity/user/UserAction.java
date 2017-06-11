@@ -16,7 +16,6 @@ public class UserAction extends BaseEntity{
     @Column(nullable = false)
     private Action action;
 
-    @JoinColumn(name = "user_id")
     @ManyToOne(optional = false)
     private User user;
 
@@ -25,6 +24,10 @@ public class UserAction extends BaseEntity{
 
     @Column(nullable = false)
     private Timestamp validTill;
+
+    public UserAction() {
+
+    }
 
     public UserAction(Action action, User user, String token, Timestamp validTill) {
         this.action = action;

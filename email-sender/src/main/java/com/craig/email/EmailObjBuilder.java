@@ -1,11 +1,13 @@
 package com.craig.email;
 
+import java.util.Map;
+
 public class EmailObjBuilder {
     private String from;
     private String to;
-    private String body;
+    private Map<String, Object> body;
     private String subject;
-    private boolean htmlType;
+    private String template;
 
     public EmailObjBuilder from(String from) {
         this.from = from;
@@ -17,13 +19,13 @@ public class EmailObjBuilder {
         return this;
     }
 
-    public EmailObjBuilder body(String body) {
+    public EmailObjBuilder body(Map<String, Object> body) {
         this.body = body;
         return this;
     }
 
-    public EmailObjBuilder htmlType(boolean htmlType) {
-        this.htmlType = htmlType;
+    public EmailObjBuilder template(String template) {
+        this.template = template;
         return this;
     }
     public EmailObjBuilder subject(String subject) {
@@ -32,6 +34,6 @@ public class EmailObjBuilder {
     }
 
     public EmailObj createEmailObj() {
-        return new EmailObj(from, to, body, subject, htmlType);
+        return new EmailObj(from, to, body, subject, template);
     }
 }

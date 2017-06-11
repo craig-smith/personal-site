@@ -9,9 +9,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if  test="${not empty errorMsg}">
-  <h2>Oops! There was a problem.</h2>
-  <c:forEach var="errorMessage" items="${errorMsg}">
-    <p>${errorMessage.errorType}: ${errorMessage.errorMessage}</p>
-  </c:forEach>
+  <div class="content">
+    <section>
+      <h2>Oops! There was a problem.</h2>
+      <c:forEach var="errorMessage" items="${errorMsg}">
+        <p>${errorMessage.errorType}: ${errorMessage.errorMessage}</p>
+      </c:forEach>
+    </section>
+  </div>
 </c:if>
 

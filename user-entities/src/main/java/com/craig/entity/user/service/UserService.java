@@ -38,7 +38,7 @@ public class UserService {
     @Transactional
     public User createNewUser(String username, @Password String password, String email) {
         logger.debug("Creating new user with username " + username);
-        Set<UserRole> roles = new HashSet<UserRole>();
+
         String passHash = bCryptPasswordEncoder.encode(password);
         User user = new User(username, passHash, email);
         userRepository.save(user);

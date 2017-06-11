@@ -1,0 +1,7 @@
+<html>
+<body>
+<h1>Welcome ${user}</h1>
+<p>Thank you for creating your account!</p>
+<p>Before Logging in, please activate your account by clicking <a href="${activation_link}">here</a></p>
+<body>
+</html>

@@ -5,12 +5,17 @@ import com.craig.email.EmailObjBuilder;
 import com.craig.email.iface.EmailSender;
 import com.craig.entity.user.User;
 import com.craig.entity.user.event.AccountCreatedEvent;
+import com.craig.entity.user.service.UserActionService;
 import com.craig.entity.user.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Craig on 3/12/2016.
@@ -25,6 +30,17 @@ public class AccountListeners {
 
     @Autowired
     private EmailSender emailSender;
+
+    @Autowired
+    private UserActionService userActionService;
+
+    @Value("${com.craig.domain.name}")
+    private String domainName;
+
+    @Value("${com.craig.port:8080}")
+    private String port;
+
+    private String link = "http://" + domainName + port;
 
     @EventListener
     public void authenticationFailed(AuthenticationFailureBadCredentialsEvent event) {
@@ -49,13 +65,19 @@ public class AccountListeners {
     @EventListener
     public void accountCreatedListener(AccountCreatedEvent event) {
         logger.debug(event.getUser().getEmail());
+        String token = userActionService.setActivateAccount(event.getUser());
+        String userActivationLink = link + "/" + "activate" + "?token=" + token;
+
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("user", event.getUser().getUserName());
+        body.put("activation_link", userActivationLink);
 
         EmailObj emailObj = new EmailObjBuilder()//
                 .from("accounts@craig.com")//
-                .htmlType(false)//
+                .template("/new_user.vm")//
                 .to(event.getUser().getEmail())//
                 .subject("New Account")//
-                .body("Thank you for creating your account. \n To activate your account click here.")//
+                .body(body)//
                 .createEmailObj();
 
         emailSender.sendMail(emailObj);

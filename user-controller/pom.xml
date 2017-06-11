@@ -7,39 +7,42 @@
     <groupId>com.craig.controller.user</groupId>
     <artifactId>user-controller</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>com.craig</groupId>
+        <artifactId>personal-site</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
 <dependencies>
     <dependency>
         <groupId>com.craig.entity.base</groupId>
         <artifactId>base-entity</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </dependency>
     <dependency>
         <groupId>com.craig.entity.userlinks</groupId>
         <artifactId>userlinks-entities</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </dependency>
     <dependency>
         <groupId>com.craig.entity.user</groupId>
         <artifactId>user-entities</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </dependency>
     <dependency>
         <groupId>com.craig.base</groupId>
         <artifactId>base</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </dependency>
     <dependency>
         <groupId>javax</groupId>
         <artifactId>javaee-api</artifactId>
-        <version>6.0</version>
         <scope>provided</scope>
     </dependency>
     <!--logging-->
     <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
-        <version>1.2.17</version>
     </dependency>
 </dependencies>
 </project>

@@ -5,15 +5,18 @@ import com.craig.aspects.userlinks.AddUserLink;
 import com.craig.autoregister.AutoRegisterLink;
 import com.craig.autoregister.AutoRegisterLinks;
 import com.craig.base.error.ErrorMessage;
+import com.craig.entity.user.Action;
 import com.craig.entity.user.User;
+import com.craig.entity.user.UserAction;
 import com.craig.entity.user.UserRole;
+import com.craig.entity.user.service.UserActionService;
 import com.craig.entity.user.service.UserService;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -41,6 +45,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserActionService userActionService;
 
 
     @AddUserLink
@@ -75,7 +82,7 @@ public class UserController {
             return "/createAccount";
         }
 
-        return "login";
+        return "redirect:login";
     }
 
     @AddUserLink
@@ -87,6 +94,32 @@ public class UserController {
 
         model.addAttribute("user", userService.findByUserName(name));
         return "user/updateAccount";
+    }
+
+    @AddUserLink
+    @RequestMapping(value = "activate", method = RequestMethod.GET)
+    public String getActivateAccount(Model model, @RequestParam(name = "token") String token) {
+        UserAction userAction = userActionService.getUserfromToken(token);
+        DateTime today = new DateTime();
+
+        if (userAction != null && userAction.getAction() == Action.Activate
+                && userAction.getValidTill().after(new Timestamp(today.getMillis()))) {
+            User user = userAction.getUser();
+            user.setEnabled(true);
+            userService.updateDetails(user);
+            userActionService.deleteUserAction(userAction);
+            model.addAttribute("user", user);
+            model.addAttribute("valid", true);
+        } else {
+            model.addAttribute("valid", false);
+            List<ErrorMessage> errors = new ArrayList<ErrorMessage>();
+            ErrorMessage errorMessage = new ErrorMessage("Validation Error",
+                    "Sorry, there was a problem validating your account.");
+            errorMessage.setErrorType("Activation Error!");
+            errors.add(errorMessage);
+            model.addAttribute("errorMsg", errors);
+        }
+        return "activate";
     }
 
     @AddUserLink
@@ -162,10 +195,12 @@ public class UserController {
         User user = userService.findByUserName(username);
         model.addAttribute("user", user);
 
-        List<UserRole.USER_ROLE> roles = Arrays.asList(UserRole.USER_ROLE.values());
+        List<UserRole.USER_ROLE> availableRoles = Arrays.asList(UserRole.USER_ROLE.values());
+        //UserRole.USER_ROLE[] availableRoles = UserRole.USER_ROLE.values();
+
 
         model.addAttribute("roles" , user.getUserRoll());
-        model.addAttribute("availableRoles", roles);
+        model.addAttribute("availableRoles", availableRoles);
         return "/admin/editUserRoles";
     }
 

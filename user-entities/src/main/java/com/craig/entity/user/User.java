@@ -6,6 +6,7 @@ import com.craig.entity.user.validator.Email;
 import com.craig.entity.user.validator.Password;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -35,6 +36,10 @@ public class User extends BaseEntity{
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoll;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(nullable = true)
+    private List<UserAction> userAction;
 
     public User(String userName, String password, String email) {
         this.userName = userName;
@@ -94,6 +99,14 @@ public class User extends BaseEntity{
 
     public void setLoginAttempts(int loginAttempts) {
         this.loginAttempts = loginAttempts;
+    }
+
+    public List<UserAction> getUserAction() {
+        return userAction;
+    }
+
+    public void setUserAction(List<UserAction> userAction) {
+        this.userAction = userAction;
     }
 
     @Override

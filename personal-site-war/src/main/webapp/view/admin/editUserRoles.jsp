@@ -24,7 +24,7 @@
     <form:form action="/admin/editUserRoles" method="post" modelAttribute="roles">
       <input type="hidden" value="${user.userName}"/>
       <c:forEach var="role" items="${availableRoles}" varStatus="status">
-       <div class="availableRoles">Role: ${role.role} <form:checkbox path="availableRoles[${status.index}].role" name="${role.role}" id="${role}" value="${role.role}"/></div>
+       <div class="availableRoles">Role: ${role.role} <form:checkbox path="role" name="${role.role}" id="${role}" value="${role.role}"/></div>
       </c:forEach>
       <input type="submit" value="submit"/>
     </form:form>
